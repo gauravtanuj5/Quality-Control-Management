@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quality Control Management System</title>
+<title>QMS Pro - Quality Control Management</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -18,7 +18,7 @@
 --secondary:#312e81;
 --accent:#22d3ee;
 --bg:#020617;
---card:rgba(255,255,255,0.06);
+--card:rgba(255,255,255,0.05);
 --text:#e5e7eb;
 }
 
@@ -35,6 +35,8 @@ background:var(--bg);
 color:var(--text);
 overflow-x:hidden;
 }
+
+/* PARTICLES */
 
 #particles-js{
 position:fixed;
@@ -54,7 +56,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 z-index:1000;
 }
 
@@ -62,6 +64,7 @@ nav a{
 margin-left:25px;
 color:#cbd5e1;
 text-decoration:none;
+font-weight:500;
 }
 
 nav a:hover{
@@ -78,6 +81,7 @@ justify-content:space-between;
 padding:0 8%;
 background-image:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758');
 background-size:cover;
+background-position:center;
 background-attachment:fixed;
 }
 
@@ -87,9 +91,9 @@ margin-bottom:20px;
 }
 
 .hero p{
-color:#cbd5e1;
 max-width:520px;
 margin-bottom:30px;
+color:#cbd5e1;
 }
 
 .btn{
@@ -132,14 +136,14 @@ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:30px;
 }
 
-/* CARD */
+/* CARDS */
 
 .card{
 background:var(--card);
 padding:30px;
 border-radius:14px;
 backdrop-filter:blur(10px);
-transition:0.5s;
+transition:0.4s;
 transform-style:preserve-3d;
 opacity:0;
 transform:translateY(40px);
@@ -152,20 +156,6 @@ transform:rotateY(8deg) rotateX(8deg) scale(1.05);
 .card h3{
 color:var(--accent);
 margin-bottom:10px;
-}
-
-/* COUNTERS */
-
-.stats{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:30px;
-text-align:center;
-}
-
-.stat h2{
-font-size:42px;
-color:var(--primary);
 }
 
 /* TIMELINE */
@@ -185,9 +175,23 @@ min-width:180px;
 text-align:center;
 }
 
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+text-align:center;
+}
+
+.stat h2{
+font-size:42px;
+color:var(--primary);
+}
+
 /* FORM */
 
-input, textarea{
+input,textarea{
 width:100%;
 padding:12px;
 margin:10px 0;
@@ -203,11 +207,15 @@ text-align:center;
 background:#020617;
 }
 
+/* SCROLL REVEAL */
+
 .reveal.active{
 opacity:1;
 transform:translateY(0);
 transition:1s ease;
 }
+
+/* MOBILE */
 
 @media(max-width:768px){
 
@@ -231,7 +239,7 @@ font-size:32px;
 
 <header>
 
-<h2>QCM Pro</h2>
+<h2>QMS Pro</h2>
 
 <nav>
 <a href="#about">About</a>
@@ -250,8 +258,9 @@ font-size:32px;
 
 <p>
 Monitor product quality, detect defects early,
-and maintain compliance across production lines
-with our advanced Quality Control Management platform.
+ensure regulatory compliance, and improve
+production standards with our Quality Control
+Management platform.
 </p>
 
 <button class="btn btn-primary">Request Demo</button>
@@ -276,18 +285,23 @@ loop autoplay>
 <div class="grid">
 
 <div class="card reveal">
-<h3>Inspection Management</h3>
-<p>Track inspections across production lines.</p>
+<h3>Product Quality Inspection</h3>
+<p>Track product inspections across manufacturing lines.</p>
 </div>
 
 <div class="card reveal">
-<h3>Defect Tracking</h3>
-<p>Identify product defects in real time.</p>
+<h3>Defect Detection</h3>
+<p>Identify defects quickly using advanced inspection tools.</p>
 </div>
 
 <div class="card reveal">
-<h3>Compliance Monitoring</h3>
-<p>Ensure compliance with regulatory standards.</p>
+<h3>Compliance Management</h3>
+<p>Ensure products meet industry regulatory standards.</p>
+</div>
+
+<div class="card reveal">
+<h3>Quality Audit Tracking</h3>
+<p>Maintain audit records and quality compliance documentation.</p>
 </div>
 
 </div>
@@ -300,9 +314,12 @@ loop autoplay>
 
 <div class="grid">
 
+<div class="card reveal"><h3>Inspection Management</h3></div>
 <div class="card reveal"><h3>Quality Analytics</h3></div>
 <div class="card reveal"><h3>Quality Alerts</h3></div>
 <div class="card reveal"><h3>Supplier Monitoring</h3></div>
+<div class="card reveal"><h3>Compliance Tracking</h3></div>
+<div class="card reveal"><h3>Defect Reporting</h3></div>
 
 </div>
 
@@ -318,7 +335,7 @@ loop autoplay>
 <div class="step">Inspection</div>
 <div class="step">Defect Detection</div>
 <div class="step">Quality Analysis</div>
-<div class="step">Improvement</div>
+<div class="step">Continuous Improvement</div>
 
 </div>
 
@@ -342,7 +359,7 @@ loop autoplay>
 
 <div class="stat">
 <h2 class="counter" data-target="30">0</h2>
-<p>Quality Improvement</p>
+<p>Higher Production Quality</p>
 </div>
 
 <div class="stat">
@@ -364,6 +381,8 @@ loop autoplay>
 <div class="card reveal"><h3>Automotive</h3></div>
 <div class="card reveal"><h3>Electronics</h3></div>
 <div class="card reveal"><h3>Pharmaceutical</h3></div>
+<div class="card reveal"><h3>Food & Beverage</h3></div>
+<div class="card reveal"><h3>Aerospace</h3></div>
 
 </div>
 
@@ -378,6 +397,7 @@ loop autoplay>
 <input type="text" placeholder="Name" required>
 <input type="text" placeholder="Company" required>
 <input type="email" placeholder="Email" required>
+<input type="tel" placeholder="Phone" required>
 <textarea rows="5" placeholder="Message"></textarea>
 
 <button class="btn btn-primary">Submit</button>
@@ -388,7 +408,7 @@ loop autoplay>
 
 <footer>
 
-<p>© 2026 QCM Pro. All rights reserved.</p>
+<p>© 2026 QMS Pro. All rights reserved.</p>
 
 </footer>
 
@@ -409,6 +429,7 @@ move:{speed:2}
 /* SCROLL REVEAL */
 
 function reveal(){
+
 let reveals=document.querySelectorAll(".reveal")
 
 for(let i=0;i<reveals.length;i++){
@@ -421,6 +442,7 @@ reveals[i].classList.add("active")
 }
 
 }
+
 }
 
 window.addEventListener("scroll",reveal)
