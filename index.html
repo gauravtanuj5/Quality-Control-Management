@@ -1,0 +1,459 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quality Control Management System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<style>
+
+:root{
+--primary:#7c3aed;
+--secondary:#312e81;
+--accent:#22d3ee;
+--bg:#020617;
+--card:rgba(255,255,255,0.06);
+--text:#e5e7eb;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+}
+
+#particles-js{
+position:fixed;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+/* NAVBAR */
+
+header{
+position:fixed;
+top:0;
+width:100%;
+padding:18px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+nav a{
+margin-left:25px;
+color:#cbd5e1;
+text-decoration:none;
+}
+
+nav a:hover{
+color:var(--accent);
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 8%;
+background-image:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758');
+background-size:cover;
+background-attachment:fixed;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.hero p{
+color:#cbd5e1;
+max-width:520px;
+margin-bottom:30px;
+}
+
+.btn{
+padding:14px 26px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:600;
+margin-right:10px;
+}
+
+.btn-primary{
+background:var(--primary);
+color:white;
+}
+
+.btn-outline{
+border:2px solid var(--primary);
+background:transparent;
+color:var(--primary);
+}
+
+/* SECTIONS */
+
+section{
+padding:110px 8%;
+}
+
+.section-title{
+text-align:center;
+font-size:34px;
+margin-bottom:60px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+/* CARD */
+
+.card{
+background:var(--card);
+padding:30px;
+border-radius:14px;
+backdrop-filter:blur(10px);
+transition:0.5s;
+transform-style:preserve-3d;
+opacity:0;
+transform:translateY(40px);
+}
+
+.card:hover{
+transform:rotateY(8deg) rotateX(8deg) scale(1.05);
+}
+
+.card h3{
+color:var(--accent);
+margin-bottom:10px;
+}
+
+/* COUNTERS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+text-align:center;
+}
+
+.stat h2{
+font-size:42px;
+color:var(--primary);
+}
+
+/* TIMELINE */
+
+.timeline{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+justify-content:center;
+}
+
+.step{
+background:var(--card);
+padding:20px;
+border-radius:10px;
+min-width:180px;
+text-align:center;
+}
+
+/* FORM */
+
+input, textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
+border:none;
+}
+
+/* FOOTER */
+
+footer{
+padding:40px;
+text-align:center;
+background:#020617;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+transition:1s ease;
+}
+
+@media(max-width:768px){
+
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.hero h1{
+font-size:32px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<header>
+
+<h2>QCM Pro</h2>
+
+<nav>
+<a href="#about">About</a>
+<a href="#features">Features</a>
+<a href="#industries">Industries</a>
+<a href="#contact">Contact</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div>
+
+<h1>Smart Quality Control for Modern Manufacturing</h1>
+
+<p>
+Monitor product quality, detect defects early,
+and maintain compliance across production lines
+with our advanced Quality Control Management platform.
+</p>
+
+<button class="btn btn-primary">Request Demo</button>
+<button class="btn btn-outline">Start Free Trial</button>
+
+</div>
+
+<lottie-player
+src="https://assets2.lottiefiles.com/packages/lf20_0yfsb3a1.json"
+background="transparent"
+speed="1"
+style="width:350px"
+loop autoplay>
+</lottie-player>
+
+</section>
+
+<section id="about">
+
+<h2 class="section-title">Quality Control Capabilities</h2>
+
+<div class="grid">
+
+<div class="card reveal">
+<h3>Inspection Management</h3>
+<p>Track inspections across production lines.</p>
+</div>
+
+<div class="card reveal">
+<h3>Defect Tracking</h3>
+<p>Identify product defects in real time.</p>
+</div>
+
+<div class="card reveal">
+<h3>Compliance Monitoring</h3>
+<p>Ensure compliance with regulatory standards.</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="features">
+
+<h2 class="section-title">Core Features</h2>
+
+<div class="grid">
+
+<div class="card reveal"><h3>Quality Analytics</h3></div>
+<div class="card reveal"><h3>Quality Alerts</h3></div>
+<div class="card reveal"><h3>Supplier Monitoring</h3></div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2 class="section-title">Quality Control Process</h2>
+
+<div class="timeline">
+
+<div class="step">Production</div>
+<div class="step">Inspection</div>
+<div class="step">Defect Detection</div>
+<div class="step">Quality Analysis</div>
+<div class="step">Improvement</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2 class="section-title">Business Impact</h2>
+
+<div class="stats">
+
+<div class="stat">
+<h2 class="counter" data-target="45">0</h2>
+<p>Reduction in Defects</p>
+</div>
+
+<div class="stat">
+<h2 class="counter" data-target="35">0</h2>
+<p>Faster Inspections</p>
+</div>
+
+<div class="stat">
+<h2 class="counter" data-target="30">0</h2>
+<p>Quality Improvement</p>
+</div>
+
+<div class="stat">
+<h2 class="counter" data-target="100">0</h2>
+<p>Compliance Visibility</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="industries">
+
+<h2 class="section-title">Industries Using QCM</h2>
+
+<div class="grid">
+
+<div class="card reveal"><h3>Manufacturing</h3></div>
+<div class="card reveal"><h3>Automotive</h3></div>
+<div class="card reveal"><h3>Electronics</h3></div>
+<div class="card reveal"><h3>Pharmaceutical</h3></div>
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<h2 class="section-title">Contact Us</h2>
+
+<form>
+
+<input type="text" placeholder="Name" required>
+<input type="text" placeholder="Company" required>
+<input type="email" placeholder="Email" required>
+<textarea rows="5" placeholder="Message"></textarea>
+
+<button class="btn btn-primary">Submit</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<p>© 2026 QCM Pro. All rights reserved.</p>
+
+</footer>
+
+<script>
+
+/* PARTICLES */
+
+particlesJS("particles-js",{
+particles:{
+number:{value:80},
+size:{value:3},
+color:{value:"#22d3ee"},
+line_linked:{enable:true,color:"#22d3ee"},
+move:{speed:2}
+}
+})
+
+/* SCROLL REVEAL */
+
+function reveal(){
+let reveals=document.querySelectorAll(".reveal")
+
+for(let i=0;i<reveals.length;i++){
+
+let windowHeight=window.innerHeight
+let elementTop=reveals[i].getBoundingClientRect().top
+
+if(elementTop<windowHeight-100){
+reveals[i].classList.add("active")
+}
+
+}
+}
+
+window.addEventListener("scroll",reveal)
+
+/* COUNTERS */
+
+const counters=document.querySelectorAll('.counter')
+
+counters.forEach(counter=>{
+
+counter.innerText='0'
+
+const update=()=>{
+
+const target=+counter.getAttribute('data-target')
+const c=+counter.innerText
+const inc=target/200
+
+if(c<target){
+counter.innerText=Math.ceil(c+inc)
+setTimeout(update,10)
+}else{
+counter.innerText=target
+}
+
+}
+
+update()
+
+})
+
+</script>
+
+</body>
+</html>
+```
