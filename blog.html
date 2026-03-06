@@ -68,6 +68,15 @@ border-radius:6px;
 <body>
 
 <h1>Quality Control Blog</h1>
+<div style="text-align:center;margin-bottom:40px">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search blog..."
+style="padding:12px;width:300px;border-radius:6px;border:none">
+
+</div>
 
 <div class="blog-grid">
 
@@ -116,9 +125,34 @@ allowfullscreen>
 </div>
 
 </div>
+<script>
 
+const searchInput = document.getElementById("searchInput")
+
+searchInput.addEventListener("keyup", function(){
+
+let filter = searchInput.value.toLowerCase()
+let cards = document.querySelectorAll(".blog-card")
+
+cards.forEach(card => {
+
+let text = card.innerText.toLowerCase()
+
+if(text.includes(filter)){
+card.style.display="block"
+}else{
+card.style.display="none"
+}
+
+})
+
+})
+
+</script>
+  
 </body>
 </html>
+
 
 
 
