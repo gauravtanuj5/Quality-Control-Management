@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="IndustrialEdge — Expert insights on manufacturing, quality control, and Industry 4.0">
+<meta property="og:title" content="IndustrialEdge Blog">
+<meta property="og:description" content="Expert insights on manufacturing, quality control, and Industry 4.0">
+<title>IndustrialEdge — Manufacturing Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ───────────────────────────────────────────── */
+:root {
+  --bg: #080b12;
+  --bg2: #0d1117;
+  --surface: #111827;
+  --surface2: #1a2234;
+  --glass: rgba(17,24,39,0.7);
+  --border: rgba(139,92,246,0.15);
+  --border2: rgba(255,255,255,0.06);
+  --accent: #8b5cf6;
+  --accent2: #6d28d9;
+  --accent3: #a78bfa;
+  --accent-glow: rgba(139,92,246,0.2);
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --heading: 'Cabinet Grotesk', sans-serif;
+  --body: 'Instrument Sans', sans-serif;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg2: #f1f5f9;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --glass: rgba(255,255,255,0.8);
+  --border: rgba(139,92,246,0.2);
+  --border2: rgba(0,0,0,0.07);
+  --accent-glow: rgba(139,92,246,0.1);
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #94a3b8;
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: var(--body); cursor: pointer; border: none; background: none; }
+
+/* ── NOISE OVERLAY ─────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
+
+/* ── READ PROGRESS ─────────────────────────────────────── */
+#progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--cyan)); z-index: 1000; width: 0; box-shadow: 0 0 12px var(--accent); }
+
+/* ── NAVBAR ────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 64px;
+  background: rgba(8,11,18,0.85); backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.logo { font-family: var(--heading); font-weight: 900; font-size: 1.3rem; letter-spacing: -0.5px; }
+.logo span { color: var(--accent3); }
+.nav-links { display: flex; gap: 8px; list-style: none; }
+.nav-links a { color: var(--text2); font-size: 0.9rem; font-weight: 500; padding: 6px 14px; border-radius: 6px; transition: all 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(139,92,246,0.12); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.theme-toggle {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface); border: 1px solid var(--border2);
+  color: var(--text2); font-size: 1rem; transition: all 0.2s;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent3); }
+.btn-subscribe { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 0.88rem; transition: all 0.25s; box-shadow: 0 0 20px var(--accent-glow); }
+.btn-subscribe:hover { transform: translateY(-2px); box-shadow: 0 4px 24px var(--accent-glow); }
+
+/* ── HERO FEATURED ─────────────────────────────────────── */
+.hero {
+  padding: 120px 60px 0;
+  max-width: 1280px; margin: 0 auto;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-glow); border: 1px solid var(--border); color: var(--accent3); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 999px; margin-bottom: 20px; }
+.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.featured-card {
+  position: relative; border-radius: 20px; overflow: hidden;
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--surface); border: 1px solid var(--border);
+  min-height: 460px;
+  box-shadow: 0 0 80px rgba(139,92,246,0.08);
+  transition: box-shadow 0.3s;
+}
+.featured-card:hover { box-shadow: 0 0 100px rgba(139,92,246,0.15); }
+.featured-image {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0f1a2e, #1a0f2e);
+}
+.featured-image .img-placeholder {
+  width: 100%; height: 100%; min-height: 460px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0d1520 0%, #1a0d2e 50%, #0d1a20 100%);
+  position: relative; overflow: hidden;
+}
+.factory-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;
+  padding: 32px; width: 100%; position: relative; z-index: 1;
+}
+.fcard {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 10px; padding: 14px 10px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: all 0.3s;
+}
+.fcard:hover { border-color: var(--accent3); background: rgba(139,92,246,0.08); transform: translateY(-3px); }
+.fcard-icon { font-size: 1.3rem; }
+.fcard-label { font-size: 0.62rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+.fcard-val { font-family: var(--heading); font-size: 1rem; font-weight: 800; color: var(--text); }
+.fcard-bar { height: 2px; background: rgba(255,255,255,0.06); border-radius: 1px; overflow: hidden; }
+.fcard-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent3)); border-radius: 1px; transition: width 1.5s ease; }
+.sdot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; margin-right: 3px; }
+.sdot.g { background: #10b981; box-shadow: 0 0 5px #10b981; animation: blink 2s infinite; }
+
+.featured-content {
+  padding: 48px;
+  display: flex; flex-direction: column; justify-content: center; gap: 20px;
+}
+.cat-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 5px; width: fit-content; }
+.cat-tag.qc { background: rgba(139,92,246,0.15); color: var(--accent3); }
+.cat-tag.ai { background: rgba(6,182,212,0.12); color: var(--cyan); }
+.cat-tag.auto { background: rgba(16,185,129,0.12); color: var(--green); }
+.cat-tag.safety { background: rgba(245,158,11,0.12); color: var(--orange); }
+.cat-tag.iot { background: rgba(239,68,68,0.1); color: var(--red); }
+
+.featured-content h1 { font-family: var(--heading); font-size: 2.2rem; font-weight: 900; line-height: 1.1; letter-spacing: -1px; }
+.featured-content p { color: var(--text2); font-size: 1rem; line-height: 1.7; }
+.featured-meta { display: flex; align-items: center; gap: 16px; font-size: 0.82rem; color: var(--text3); }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #ec4899); display: flex; align-items: center; justify-content: center; font-family: var(--heading); font-weight: 800; font-size: 0.72rem; color: #fff; }
+.meta-sep { color: var(--border2); }
+.reading-time { display: flex; align-items: center; gap: 4px; }
+.btn-read {
+  display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
+  padding: 12px 28px; border-radius: 10px; font-weight: 700; font-size: 0.9rem;
+  transition: all 0.25s; box-shadow: 0 0 24px var(--accent-glow);
+}
+.btn-read:hover { transform: translateY(-2px); box-shadow: 0 6px 30px var(--accent-glow); }
+.btn-read svg { transition: transform 0.2s; }
+.btn-read:hover svg { transform: translateX(4px); }
+
+/* ── SEARCH + FILTER ───────────────────────────────────── */
+.search-section { max-width: 1280px; margin: 56px auto 0; padding: 0 60px; }
+.search-wrap { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.search-box {
+  flex: 1; min-width: 280px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 12px; padding: 0 16px; height: 48px;
+  transition: border-color 0.2s;
+}
+.search-box:focus-within { border-color: var(--accent); }
+.search-box svg { color: var(--text3); flex-shrink: 0; }
+.search-box input { background: none; border: none; outline: none; color: var(--text); font-family: var(--body); font-size: 0.9rem; flex: 1; }
+.search-box input::placeholder { color: var(--text3); }
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-tab {
+  padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600;
+  background: var(--surface); border: 1px solid var(--border2);
+  color: var(--text2); transition: all 0.2s; cursor: pointer;
+}
+.filter-tab:hover, .filter-tab.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent3); }
+
+/* ── MAIN LAYOUT ───────────────────────────────────────── */
+.main-layout {
+  max-width: 1280px; margin: 48px auto 0; padding: 0 60px 80px;
+  display: grid; grid-template-columns: 1fr 340px; gap: 48px;
+}
+
+/* ── SECTION HEADER ────────────────────────────────────── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.section-title { font-family: var(--heading); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.3px; }
+.section-title span { color: var(--accent3); }
+.view-all { font-size: 0.82rem; font-weight: 600; color: var(--accent3); display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+.view-all:hover { gap: 8px; }
+
+/* ── BLOG GRID ─────────────────────────────────────────── */
+.blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+/* SKELETON */
+.skeleton { animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
+.skeleton-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border2); }
+.skel-img { height: 180px; background: var(--surface2); }
+.skel-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.skel-line { height: 12px; background: var(--surface2); border-radius: 4px; }
+
+/* BLOG CARD */
+.blog-card {
+  background: var(--glass); backdrop-filter: blur(12px);
+  border: 1px solid var(--border2); border-radius: var(--radius);
+  overflow: hidden; transition: all 0.3s; cursor: pointer;
+  display: flex; flex-direction: column;
+  animation: fadeUp 0.5s ease both;
+}
+.blog-card:hover { transform: translateY(-4px); border-color: var(--border); box-shadow: 0 12px 40px rgba(139,92,246,0.12); }
+.card-img {
+  height: 180px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  display: flex; align-items: center; justify-content: center;
+}
+.card-img-bg { width: 100%; height: 100%; position: absolute; inset: 0; transition: transform 0.4s ease; }
+.blog-card:hover .card-img-bg { transform: scale(1.05); }
+.card-img-emoji { font-size: 3rem; position: relative; z-index: 1; }
+.card-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,11,18,0.6) 0%, transparent 60%); }
+.card-img .cat-tag { position: absolute; top: 12px; left: 12px; z-index: 2; }
+
+.card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.card-title { font-family: var(--heading); font-weight: 800; font-size: 1.02rem; line-height: 1.3; letter-spacing: -0.3px; transition: color 0.2s; }
+.blog-card:hover .card-title { color: var(--accent3); }
+.card-desc { color: var(--text2); font-size: 0.85rem; line-height: 1.6; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.card-meta { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text3); }
+.btn-read-more {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 700;
+  color: var(--accent3); transition: gap 0.2s;
+}
+.btn-read-more:hover { gap: 9px; }
+
+/* ── PAGINATION ────────────────────────────────────────── */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 36px; }
+.page-btn {
+  width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  background: var(--surface); border: 1px solid var(--border2); color: var(--text2); font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+}
+.page-btn:hover, .page-btn.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent3); }
+
+/* ── SIDEBAR ───────────────────────────────────────────── */
+.sidebar { display: flex; flex-direction: column; gap: 24px; }
+.sidebar-card { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--border2); border-radius: var(--radius); padding: 24px; }
+.sidebar-card h3 { font-family: var(--heading); font-weight: 800; font-size: 1rem; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border2); }
+
+/* POPULAR */
+.popular-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border2); cursor: pointer; transition: opacity 0.2s; }
+.popular-item:last-child { border-bottom: none; padding-bottom: 0; }
+.popular-item:hover { opacity: 0.75; }
+.pop-num { font-family: var(--heading); font-weight: 900; font-size: 1.4rem; color: var(--accent-glow); min-width: 28px; line-height: 1; }
+.pop-title { font-size: 0.84rem; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+.pop-date { font-size: 0.73rem; color: var(--text3); }
+
+/* NEWSLETTER */
+.newsletter-card { background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(109,40,217,0.05)); border-color: var(--border) !important; }
+.newsletter-card p { font-size: 0.85rem; color: var(--text2); margin-bottom: 14px; }
+.nl-form { display: flex; flex-direction: column; gap: 10px; }
+.nl-input {
+  background: var(--bg); border: 1px solid var(--border2); border-radius: 8px;
+  padding: 10px 14px; font-family: var(--body); font-size: 0.85rem; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.nl-input:focus { border-color: var(--accent); }
+.nl-input::placeholder { color: var(--text3); }
+.nl-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
+  padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; transition: all 0.2s;
+}
+.nl-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+
+/* SOCIAL SHARE */
+.share-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.share-btn {
+  flex: 1; min-width: 70px; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+  border: 1px solid var(--border2); color: var(--text2); background: var(--surface2);
+  display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.2s;
+}
+.share-btn:hover { border-color: var(--accent); color: var(--accent3); background: var(--accent-glow); }
+
+/* TAGS CLOUD */
+.tags-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.cloud-tag {
+  padding: 5px 12px; border-radius: 6px; font-size: 0.77rem; font-weight: 600;
+  background: var(--surface2); border: 1px solid var(--border2); color: var(--text2);
+  cursor: pointer; transition: all 0.2s;
+}
+.cloud-tag:hover { border-color: var(--accent); color: var(--accent3); background: var(--accent-glow); }
+
+/* ── BLOG DETAIL PAGE ──────────────────────────────────── */
+#detail-page { display: none; }
+#detail-page.visible { display: block; }
+#listing-page.hidden { display: none; }
+
+.detail-hero {
+  padding: 100px 60px 0; max-width: 900px; margin: 0 auto;
+  animation: fadeUp 0.6s ease both;
+}
+.detail-hero .cat-tag { margin-bottom: 18px; }
+.detail-title { font-family: var(--heading); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+.detail-sub { font-size: 1.1rem; color: var(--text2); line-height: 1.7; margin-bottom: 28px; }
+.detail-meta { display: flex; align-items: center; gap: 20px; font-size: 0.85rem; color: var(--text3); flex-wrap: wrap; margin-bottom: 40px; }
+.detail-meta-item { display: flex; align-items: center; gap: 7px; }
+.detail-hero-img {
+  width: 100%; height: 420px; border-radius: 18px; overflow: hidden;
+  background: linear-gradient(135deg, #0d1520, #1a0d2e);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 60px; border: 1px solid var(--border);
+  position: relative;
+}
+
+.detail-layout { max-width: 1100px; margin: 0 auto; padding: 0 60px 80px; display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: start; }
+
+/* TOC */
+.toc-sidebar { position: sticky; top: 90px; }
+.toc-sidebar h4 { font-family: var(--heading); font-weight: 700; font-size: 0.85rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+.toc-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.toc-list li a { font-size: 0.85rem; color: var(--text2); display: flex; align-items: flex-start; gap: 8px; padding: 6px 10px; border-radius: 6px; transition: all 0.2s; border-left: 2px solid transparent; }
+.toc-list li a::before { content: ''; width: 4px; height: 4px; background: var(--text3); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+.toc-list li a:hover, .toc-list li a.active { color: var(--accent3); border-left-color: var(--accent3); background: var(--accent-glow); }
+
+/* ARTICLE BODY */
+.article-content { font-size: 1rem; line-height: 1.8; }
+.article-content h2 { font-family: var(--heading); font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text); margin: 48px 0 16px; }
+.article-content h3 { font-family: var(--heading); font-size: 1.25rem; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
+.article-content p { color: #c8d0e0; margin-bottom: 18px; }
+.article-content p strong { color: var(--text); font-weight: 600; }
+.article-content blockquote {
+  border-left: 3px solid var(--accent);
+  margin: 28px 0; padding: 18px 24px;
+  background: var(--accent-glow); border-radius: 0 10px 10px 0;
+  font-style: italic; color: var(--accent3); font-size: 1.05rem;
+}
+.article-content pre {
+  background: #0d1117; border: 1px solid var(--border2);
+  border-radius: 10px; padding: 20px 24px; overflow-x: auto;
+  margin: 24px 0; font-size: 0.85rem;
+}
+.article-content code { font-family: 'JetBrains Mono', monospace; color: var(--cyan); }
+.article-content ul { padding-left: 20px; color: #c8d0e0; margin-bottom: 18px; display: flex; flex-direction: column; gap: 6px; }
+.article-content ul li::marker { color: var(--accent3); }
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 28px 0; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; transition: all 0.2s; }
+.stat-box:hover { border-color: var(--accent3); transform: translateY(-2px); }
+.stat-num { font-family: var(--heading); font-size: 1.8rem; font-weight: 900; color: var(--accent3); display: block; }
+.stat-lbl { font-size: 0.75rem; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.inline-cta { background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.05)); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin: 36px 0; text-align: center; }
+.inline-cta h3 { font-family: var(--heading); font-weight: 800; font-size: 1.3rem; margin-bottom: 8px; }
+.inline-cta p { color: var(--text2); font-size: 0.88rem; margin-bottom: 18px; }
+
+/* COMMENT SECTION */
+.comments-section { margin-top: 56px; }
+.comments-section h3 { font-family: var(--heading); font-weight: 800; font-size: 1.3rem; margin-bottom: 24px; }
+.comment { display: flex; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border2); }
+.comment:last-child { border-bottom: none; }
+.comment-body .comment-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+.comment-body .comment-date { font-size: 0.75rem; color: var(--text3); margin-bottom: 8px; }
+.comment-body p { font-size: 0.88rem; color: var(--text2); }
+.comment-form { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+.comment-form textarea { background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; padding: 14px 16px; font-family: var(--body); font-size: 0.88rem; color: var(--text); outline: none; resize: none; height: 100px; transition: border-color 0.2s; }
+.comment-form textarea:focus { border-color: var(--accent); }
+.comment-form textarea::placeholder { color: var(--text3); }
+
+/* RELATED ARTICLES */
+.related-section { max-width: 1100px; margin: 0 auto; padding: 0 60px 80px; }
+.related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 20px; }
+
+/* ── ANIMATIONS ────────────────────────────────────────── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.aos { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.aos.in { opacity: 1; transform: translateY(0); }
+
+/* ── BACK BUTTON ───────────────────────────────────────── */
+.back-btn { display: flex; align-items: center; gap: 8px; color: var(--text2); font-size: 0.88rem; font-weight: 600; padding: 8px 0; margin-bottom: 24px; cursor: pointer; transition: color 0.2s; width: fit-content; }
+.back-btn:hover { color: var(--accent3); }
+
+/* ── MOBILE ────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .hero, .search-section { padding-left: 24px; padding-right: 24px; }
+  .main-layout { grid-template-columns: 1fr; padding: 0 24px 60px; }
+  .sidebar { display: none; }
+  .featured-card { grid-template-columns: 1fr; }
+  .featured-image { min-height: 240px; }
+  .featured-image .img-placeholder { min-height: 240px; }
+  .factory-visual { grid-template-columns: repeat(3,1fr); }
+  .factory-card-4, .factory-card-5 { display: none; }
+  .detail-layout { grid-template-columns: 1fr; padding: 0 24px 60px; }
+  .toc-sidebar { display: none; }
+  .detail-hero { padding: 100px 24px 0; }
+  .related-section { padding: 0 24px 60px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .featured-content { padding: 28px; }
+  .featured-content h1 { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="logo">Industrial<span>Edge</span></a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Blog</a></li>
+    <li><a href="#">Industries</a></li>
+    <li><a href="#">Research</a></li>
+    <li><a href="#">Events</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+    <button class="btn-subscribe" onclick="document.getElementById('newsletter-input').focus()">Subscribe Free</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  LISTING PAGE                                          -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="listing-page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">✦ Featured Article</div>
+    <div class="featured-card" onclick="openPost('qc-manufacturing')">
+      <div class="featured-image">
+        <div class="img-placeholder" id="liveDashboard">
+          <div class="factory-visual">
+            <div class="fcard">
+              <div class="fcard-icon">🔬</div>
+              <div class="fcard-label">Inspection Rate</div>
+              <div class="fcard-val" id="insp">99.2%</div>
+              <div class="fcard-bar"><div class="fcard-fill" style="width:99%"></div></div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-icon">⚙️</div>
+              <div class="fcard-label">Line Speed</div>
+              <div class="fcard-val" id="speed">847/hr</div>
+              <div class="fcard-bar"><div class="fcard-fill" style="width:72%"></div></div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-icon">🚨</div>
+              <div class="fcard-label">Defects</div>
+              <div class="fcard-val" id="defects">3</div>
+              <div class="fcard-bar"><div class="fcard-fill" id="defBar" style="width:3%;background:linear-gradient(90deg,#ef4444,#f97316)"></div></div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-icon">✅</div>
+              <div class="fcard-label">Status</div>
+              <div class="fcard-val"><span class="sdot g"></span>Live</div>
+              <div class="fcard-bar"><div class="fcard-fill" style="width:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="featured-content">
+        <span class="cat-tag qc">🔍 Quality Control</span>
+        <h1>Quality Control in Manufacturing</h1>
+        <p>Learn how modern factories ensure product quality using AI-powered inspection systems, real-time defect tracking, and statistical process control — reducing waste by up to 40%.</p>
+        <div class="featured-meta">
+          <div class="avatar">RK</div>
+          <span>Rahul Kumar</span>
+          <span class="meta-sep">·</span>
+          <span>March 7, 2026</span>
+          <span class="meta-sep">·</span>
+          <span class="reading-time">⏱ 8 min read</span>
+        </div>
+        <a class="btn-read">Read Article <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH + FILTER -->
+  <section class="search-section">
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search articles..." id="searchInput" oninput="filterPosts()">
+      </div>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-tab" onclick="setFilter('qc',this)">Quality Control</button>
+        <button class="filter-tab" onclick="setFilter('ai',this)">AI & Automation</button>
+        <button class="filter-tab" onclick="setFilter('iot',this)">IoT & Sensors</button>
+        <button class="filter-tab" onclick="setFilter('safety',this)">Safety</button>
+        <button class="filter-tab" onclick="setFilter('auto',this)">Robotics</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout">
+    <div>
+      <div class="section-header">
+        <h2 class="section-title">Latest <span>Articles</span></h2>
+        <a class="view-all">View all →</a>
+      </div>
+      <!-- SKELETON (shown briefly) -->
+      <div class="blog-grid" id="skeletonGrid">
+        <div class="skeleton-card skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line" style="width:40%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:60%"></div><div class="skel-line" style="width:30%"></div></div></div>
+        <div class="skeleton-card skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line" style="width:40%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:60%"></div><div class="skel-line" style="width:30%"></div></div></div>
+        <div class="skeleton-card skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line" style="width:40%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:60%"></div><div class="skel-line" style="width:30%"></div></div></div>
+        <div class="skeleton-card skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line" style="width:40%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:60%"></div><div class="skel-line" style="width:30%"></div></div></div>
+      </div>
+      <!-- ACTUAL POSTS -->
+      <div class="blog-grid" id="blogGrid" style="display:none"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <!-- POPULAR -->
+      <div class="sidebar-card">
+        <h3>🔥 Popular Articles</h3>
+        <div id="popularList"></div>
+      </div>
+      <!-- NEWSLETTER -->
+      <div class="sidebar-card newsletter-card">
+        <h3>📬 Newsletter</h3>
+        <p>Weekly insights on manufacturing tech, delivered to your inbox.</p>
+        <div class="nl-form">
+          <input class="nl-input" id="newsletter-input" type="email" placeholder="your@email.com">
+          <button class="nl-btn" onclick="subscribeNL(this)">Subscribe Free →</button>
+        </div>
+      </div>
+      <!-- SOCIAL SHARE -->
+      <div class="sidebar-card">
+        <h3>🔗 Share This Blog</h3>
+        <div class="share-btns">
+          <button class="share-btn">𝕏 Twitter</button>
+          <button class="share-btn">in LinkedIn</button>
+          <button class="share-btn">📧 Email</button>
+        </div>
+      </div>
+      <!-- TAGS -->
+      <div class="sidebar-card">
+        <h3>🏷 Topics</h3>
+        <div class="tags-cloud" id="tagCloud"></div>
+      </div>
+    </aside>
+  </div>
+
+</div>
+<!-- end listing-page -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  DETAIL PAGE                                           -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="detail-page">
+
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goBack()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Blog
+    </button>
+    <span class="cat-tag qc" id="detail-cat">🔍 Quality Control</span>
+    <h1 class="detail-title" id="detail-title">Quality Control in Manufacturing</h1>
+    <p class="detail-sub" id="detail-sub">Learn how modern factories ensure product quality using advanced inspection systems.</p>
+    <div class="detail-meta">
+      <div class="detail-meta-item"><div class="avatar" id="detail-avatar">RK</div><strong id="detail-author">Rahul Kumar</strong></div>
+      <div class="detail-meta-item">📅 <span id="detail-date">March 7, 2026</span></div>
+      <div class="detail-meta-item">⏱ <span id="detail-read">8 min read</span></div>
+      <div class="detail-meta-item">👁 <span id="detail-views">4,218 views</span></div>
+    </div>
+    <div class="detail-hero-img" id="detail-hero-img">
+      <div class="factory-visual" style="padding:28px;grid-template-columns:repeat(4,1fr)">
+        <div class="fcard"><div class="fcard-icon">🏭</div><div class="fcard-label">Plant Coverage</div><div class="fcard-val">98.4%</div><div class="fcard-bar"><div class="fcard-fill" style="width:98%"></div></div></div>
+        <div class="fcard"><div class="fcard-icon">🤖</div><div class="fcard-label">AI Confidence</div><div class="fcard-val">97.8%</div><div class="fcard-bar"><div class="fcard-fill" style="width:97%"></div></div></div>
+        <div class="fcard"><div class="fcard-icon">📊</div><div class="fcard-label">SPC Score</div><div class="fcard-val">Excellent</div><div class="fcard-bar"><div class="fcard-fill" style="width:92%"></div></div></div>
+        <div class="fcard"><div class="fcard-icon">💰</div><div class="fcard-label">Cost Saved</div><div class="fcard-val">$1.2M</div><div class="fcard-bar"><div class="fcard-fill" style="width:80%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-layout">
+    <!-- ARTICLE -->
+    <article class="article-content" id="article-content">
+      <h2 id="intro">What Is Quality Control?</h2>
+      <p>Quality control (QC) in manufacturing is the systematic process of ensuring products meet defined standards before reaching customers. It encompasses everything from raw material verification to final product inspection — and in modern facilities, it's deeply integrated with digital technology.</p>
+      <p>Modern factories have evolved far beyond simple visual inspection. Today, <strong>AI-powered vision systems</strong>, real-time sensor networks, and predictive analytics work together to catch defects before they compound.</p>
+      <blockquote>"Quality is not an act. It is a habit." — Aristotle (still true on the factory floor)</blockquote>
+
+      <div class="stats-grid aos">
+        <div class="stat-box"><span class="stat-num">$1.3T</span><span class="stat-lbl">Annual cost of poor quality</span></div>
+        <div class="stat-box"><span class="stat-num">40%</span><span class="stat-lbl">Defect reduction via AI</span></div>
+        <div class="stat-box"><span class="stat-num">5×</span><span class="stat-lbl">Faster than manual inspection</span></div>
+      </div>
+
+      <h2 id="methods">Core Inspection Methods</h2>
+      <p>Different manufacturing contexts require different approaches. Here are the five primary methods used across high-volume production lines:</p>
+      <ul>
+        <li><strong>Statistical Process Control (SPC)</strong> — monitors production via control charts to detect drift before defects occur</li>
+        <li><strong>Machine Vision Systems</strong> — high-speed cameras with AI models inspect thousands of parts per hour</li>
+        <li><strong>Coordinate Measuring Machines (CMM)</strong> — sub-millimeter dimensional accuracy verified against CAD models</li>
+        <li><strong>Non-Destructive Testing (NDT)</strong> — ultrasound and X-ray inspect internal structure without damage</li>
+        <li><strong>IoT Sensor Networks</strong> — real-time temperature, vibration, and pressure monitoring during production</li>
+      </ul>
+
+      <h2 id="ai">The Rise of AI in QC</h2>
+      <p>Artificial intelligence has fundamentally changed what's possible in quality inspection. Deep learning models trained on millions of defect images can now <strong>outperform human inspectors</strong> in both speed and consistency.</p>
+      <pre><code>// Example: AI inference pipeline
+const result = await visionModel.inspect({
+  image: capturedFrame,
+  threshold: 0.97,
+  defectClasses: ['scratch', 'dent', 'misalignment']
+});
+if (result.confidence > 0.97) rejectPart(result);</code></pre>
+      <p>Companies like BMW, Samsung, and Foxconn have deployed AI vision systems running 24/7, reducing defect escape rates to near zero. The key advantage isn't just speed — it's the elimination of human fatigue and subjectivity.</p>
+
+      <div class="inline-cta aos">
+        <h3>Want the Full 2026 QC Systems Report?</h3>
+        <p>48-page deep dive covering AI vision benchmarks, vendor comparisons, and ROI case studies.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn-read" onclick="subscribeNL(this)">⬇ Download Free Report</button>
+          <button style="padding:12px 24px;border-radius:10px;border:1px solid var(--border);color:var(--accent3);font-weight:600;font-size:0.9rem;cursor:pointer;background:transparent;transition:all 0.2s" onmouseover="this.style.background='var(--accent-glow)'" onmouseout="this.style.background='transparent'">Explore Case Studies →</button>
+        </div>
+      </div>
+
+      <h2 id="future">What's Next for QC?</h2>
+      <p>The next frontier is <strong>predictive quality</strong> — using machine learning to forecast when a process will drift out of spec before a single defect is produced. Digital twins of entire production lines allow manufacturers to simulate quality scenarios virtually, slashing the cost of deploying new QC systems.</p>
+      <p>By 2028, industry analysts project that over 70% of high-volume manufacturers will have fully autonomous QC systems — no human in the loop for standard inspection, only for exception handling and system improvement.</p>
+
+      <!-- COMMENTS -->
+      <div class="comments-section">
+        <h3>💬 Discussion (3)</h3>
+        <div id="commentsList">
+          <div class="comment">
+            <div class="avatar" style="background:linear-gradient(135deg,#06b6d4,#8b5cf6)">AJ</div>
+            <div class="comment-body">
+              <div class="comment-name">Amit Joshi</div>
+              <div class="comment-date">March 5, 2026</div>
+              <p>Outstanding breakdown. The SPC vs AI section is exactly what I needed for our Q2 plant review.</p>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="avatar" style="background:linear-gradient(135deg,#10b981,#06b6d4)">SP</div>
+            <div class="comment-body">
+              <div class="comment-name">Sara Patel</div>
+              <div class="comment-date">March 4, 2026</div>
+              <p>The code snippet is a great touch — rarely seen in manufacturing content. Would love a deeper dive on CMM integration.</p>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">DK</div>
+            <div class="comment-body">
+              <div class="comment-name">David Kim</div>
+              <div class="comment-date">March 3, 2026</div>
+              <p>The $1.3T stat is staggering. Shared this with our entire operations team.</p>
+            </div>
+          </div>
+          <div id="dynamic-comments"></div>
+        </div>
+        <div class="comment-form">
+          <textarea id="commentText" placeholder="Share your thoughts..."></textarea>
+          <button class="btn-read" style="width:fit-content" onclick="postComment()">Post Comment</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- TOC SIDEBAR -->
+    <div class="toc-sidebar">
+      <h4>On this page</h4>
+      <ul class="toc-list">
+        <li><a href="#intro" onclick="scrollToSection('intro')">What Is Quality Control?</a></li>
+        <li><a href="#methods" onclick="scrollToSection('methods')">Core Inspection Methods</a></li>
+        <li><a href="#ai" onclick="scrollToSection('ai')">The Rise of AI in QC</a></li>
+        <li><a href="#future" onclick="scrollToSection('future')">What's Next for QC?</a></li>
+      </ul>
+      <div style="margin-top:28px">
+        <h4>Share</h4>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+          <button class="share-btn" style="justify-content:flex-start">𝕏 Share on X</button>
+          <button class="share-btn" style="justify-content:flex-start">in Share on LinkedIn</button>
+          <button class="share-btn" style="justify-content:flex-start;display:flex;align-items:center;gap:5px" onclick="copyLink(this)">🔗 Copy Link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED ARTICLES -->
+  <section class="related-section">
+    <div class="section-header">
+      <h2 class="section-title">Related <span>Articles</span></h2>
+    </div>
+    <div class="related-grid" id="relatedGrid"></div>
+  </section>
+
+</div>
+<!-- end detail-page -->
+
+<script>
+/* ── DATA ─────────────────────────────────────────────── */
+const POSTS = [
+  { id:'qc-manufacturing', title:'Quality Control in Manufacturing', desc:'How AI-powered inspection systems are revolutionising quality assurance on the factory floor.', author:'Rahul Kumar', authorInit:'RK', date:'Mar 7, 2026', cat:'qc', catLabel:'Quality Control', icon:'🔬', read:'8 min', views:'4.2K' },
+  { id:'ai-defect-detection', title:'AI Defect Detection: 2026 Benchmarks', desc:'A comprehensive comparison of leading vision AI models for industrial defect detection tasks.', author:'Priya Singh', authorInit:'PS', date:'Mar 5, 2026', cat:'ai', catLabel:'AI & Automation', icon:'🤖', read:'11 min', views:'3.1K' },
+  { id:'iot-factory', title:'IoT Sensor Networks in Smart Factories', desc:'Building a real-time sensor mesh that monitors temperature, vibration, and pressure across an entire plant.', author:'James Liu', authorInit:'JL', date:'Mar 2, 2026', cat:'iot', catLabel:'IoT & Sensors', icon:'📡', read:'9 min', views:'2.8K' },
+  { id:'cobots-assembly', title:'How Collaborative Robots Change Assembly Lines', desc:'Cobots are no longer a future concept. Here\'s how they\'re being deployed right now.', author:'Sarah Chen', authorInit:'SC', date:'Feb 28, 2026', cat:'auto', catLabel:'Robotics', icon:'🦾', read:'7 min', views:'5.4K' },
+  { id:'workplace-safety', title:'Zero-Incident Workplace Safety with Wearables', desc:'Smart PPE and AI monitoring are pushing injury rates to historic lows in high-risk facilities.', author:'Mike Torres', authorInit:'MT', date:'Feb 24, 2026', cat:'safety', catLabel:'Safety', icon:'🦺', read:'6 min', views:'2.1K' },
+  { id:'digital-twin', title:'Digital Twins for Predictive Maintenance', desc:'Virtual replicas of physical equipment can predict failures weeks before they happen.', author:'Lisa Yamamoto', authorInit:'LY', date:'Feb 20, 2026', cat:'ai', catLabel:'AI & Automation', icon:'🌐', read:'12 min', views:'6.7K' },
+  { id:'lean-manufacturing', title:'Lean Manufacturing in the Age of Industry 5.0', desc:'Eliminating waste while keeping humans at the center of production — the new lean thinking.', author:'David Park', authorInit:'DP', date:'Feb 16, 2026', cat:'auto', catLabel:'Robotics', icon:'⚡', read:'8 min', views:'3.9K' },
+  { id:'supply-chain-ai', title:'AI-Driven Supply Chain Resilience', desc:'How manufacturers are using machine learning to build supply chains that anticipate disruption.', author:'Ana Rodriguez', authorInit:'AR', date:'Feb 12, 2026', cat:'ai', catLabel:'AI & Automation', icon:'🔗', read:'10 min', views:'4.5K' },
+];
+
+const CAT_COLORS = { qc:'qc', ai:'ai', iot:'iot', auto:'auto', safety:'safety' };
+const TAGS = ['Quality Control','AI Vision','IoT','Cobots','SPC','Industry 4.0','Digital Twin','Lean','Safety','Predictive Maintenance','Machine Learning','Smart Factory'];
+
+let currentFilter = 'all';
+let currentPage = 1;
+const PER_PAGE = 6;
+let filteredPosts = [...POSTS];
+
+/* ── THEME ─────────────────────────────────────────────── */
+const themeBtn = document.getElementById('themeToggle');
+themeBtn.onclick = () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  themeBtn.textContent = isDark ? '🌙' : '☀️';
+};
+
+/* ── PROGRESS ──────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  const p = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+/* ── LIVE DASHBOARD ────────────────────────────────────── */
+setInterval(() => {
+  document.getElementById('insp').textContent = (98 + Math.random()*1.5).toFixed(1) + '%';
+  document.getElementById('speed').textContent = Math.floor(800 + Math.random()*100) + '/hr';
+  const d = Math.floor(Math.random() * 6);
+  document.getElementById('defects').textContent = d;
+  document.getElementById('defBar').style.width = (d * 3) + '%';
+}, 2800);
+
+/* ── RENDER CARDS ──────────────────────────────────────── */
+function cardHTML(post, delay) {
+  const catClass = CAT_COLORS[post.cat] || 'qc';
+  return `
+  <div class="blog-card stagger-${delay}" onclick="openPost('${post.id}')">
+    <div class="card-img">
+      <div class="card-img-bg" style="background:linear-gradient(135deg,${imgGrad(post.cat)});width:100%;height:100%;position:absolute"></div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-emoji">${post.icon}</div>
+      <span class="cat-tag ${catClass}">${post.catLabel}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-title">${post.title}</div>
+      <div class="card-desc">${post.desc}</div>
+      <div class="card-footer">
+        <div class="card-meta">
+          <div class="avatar" style="width:24px;height:24px;font-size:0.62rem">${post.authorInit}</div>
+          <span>${post.author}</span>
+          <span>·</span>
+          <span>${post.date}</span>
+        </div>
+        <a class="btn-read-more">Read More →</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function imgGrad(cat) {
+  const g = { qc:'#1a0d2e,#0d1520', ai:'#0d1a24,#0d2420', iot:'#201a0d,#0d1a1a', auto:'#0d200d,#1a200d', safety:'#200d0d,#20180d' };
+  return g[cat] || g.qc;
+}
+
+function renderPosts() {
+  const start = (currentPage - 1) * PER_PAGE;
+  const page = filteredPosts.slice(start, start + PER_PAGE);
+  const grid = document.getElementById('blogGrid');
+  grid.innerHTML = page.map((p, i) => cardHTML(p, (i % 4) + 1)).join('');
+  renderPagination();
+  observeAOS();
+}
+
+function renderPagination() {
+  const total = Math.ceil(filteredPosts.length / PER_PAGE);
+  const pg = document.getElementById('pagination');
+  if (total <= 1) { pg.innerHTML = ''; return; }
+  let html = '';
+  if (currentPage > 1) html += `<button class="page-btn" onclick="goPage(${currentPage-1})">‹</button>`;
+  for (let i = 1; i <= total; i++) html += `<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  if (currentPage < total) html += `<button class="page-btn" onclick="goPage(${currentPage+1})">›</button>`;
+  pg.innerHTML = html;
+}
+
+function goPage(n) { currentPage = n; renderPosts(); window.scrollTo({top:400,behavior:'smooth'}); }
+
+/* ── FILTER ────────────────────────────────────────────── */
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterPosts();
+}
+
+function filterPosts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  filteredPosts = POSTS.filter(p => {
+    const matchCat = currentFilter === 'all' || p.cat === currentFilter;
+    const matchQ = !q || p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  currentPage = 1;
+  renderPosts();
+}
+
+/* ── POPULAR SIDEBAR ───────────────────────────────────── */
+function renderPopular() {
+  const top = [...POSTS].sort((a,b) => parseFloat(b.views) - parseFloat(a.views)).slice(0,5);
+  document.getElementById('popularList').innerHTML = top.map((p,i) => `
+    <div class="popular-item" onclick="openPost('${p.id}')">
+      <div class="pop-num">0${i+1}</div>
+      <div>
+        <div class="pop-title">${p.title}</div>
+        <div class="pop-date">${p.date} · ${p.read}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── TAGS ──────────────────────────────────────────────── */
+function renderTags() {
+  document.getElementById('tagCloud').innerHTML = TAGS.map(t => `<span class="cloud-tag">#${t}</span>`).join('');
+}
+
+/* ── RELATED ───────────────────────────────────────────── */
+function renderRelated(currentId) {
+  const related = POSTS.filter(p => p.id !== currentId).slice(0, 3);
+  document.getElementById('relatedGrid').innerHTML = related.map((p, i) => cardHTML(p, i+1)).join('');
+}
+
+/* ── OPEN / CLOSE DETAIL ───────────────────────────────── */
+function openPost(id) {
+  const post = POSTS.find(p => p.id === id) || POSTS[0];
+  document.getElementById('detail-title').textContent = post.title;
+  document.getElementById('detail-sub').textContent = post.desc;
+  document.getElementById('detail-author').textContent = post.author;
+  document.getElementById('detail-avatar').textContent = post.authorInit;
+  document.getElementById('detail-date').textContent = post.date;
+  document.getElementById('detail-read').textContent = post.read;
+  document.getElementById('detail-views').textContent = post.views + ' views';
+  document.getElementById('detail-cat').textContent = post.icon + ' ' + post.catLabel;
+  document.getElementById('detail-cat').className = 'cat-tag ' + post.cat;
+  document.getElementById('listing-page').classList.add('hidden');
+  document.getElementById('detail-page').classList.add('visible');
+  renderRelated(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+  observeAOS();
+}
+
+function goBack() {
+  document.getElementById('detail-page').classList.remove('visible');
+  document.getElementById('listing-page').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── SCROLL TOC ────────────────────────────────────────── */
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) { window.scrollTo({top: el.offsetTop - 80, behavior:'smooth'}); }
+  event.preventDefault();
+}
+
+/* ── COMMENT ───────────────────────────────────────────── */
+function postComment() {
+  const txt = document.getElementById('commentText').value.trim();
+  if (!txt) return;
+  const colors = ['linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#06b6d4,#10b981)'];
+  const html = `<div class="comment" style="animation:fadeUp 0.4s ease both">
+    <div class="avatar" style="background:${colors[0]}">You</div>
+    <div class="comment-body">
+      <div class="comment-name">You</div>
+      <div class="comment-date">Just now</div>
+      <p>${txt}</p>
+    </div>
+  </div>`;
+  document.getElementById('dynamic-comments').innerHTML += html;
+  document.getElementById('commentText').value = '';
+}
+
+/* ── NEWSLETTER ────────────────────────────────────────── */
+function subscribeNL(btn) {
+  btn.textContent = '✓ Subscribed! Welcome aboard.';
+  btn.style.background = 'linear-gradient(135deg,#10b981,#06b6d4)';
+}
+
+/* ── COPY LINK ─────────────────────────────────────────── */
+function copyLink(btn) {
+  navigator.clipboard?.writeText(window.location.href);
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => btn.textContent = '🔗 Copy Link', 2000);
+}
+
+/* ── AOS ───────────────────────────────────────────────── */
+function observeAOS() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.aos').forEach(el => { el.classList.remove('in'); obs.observe(el); });
+}
+
+/* ── INIT ──────────────────────────────────────────────── */
+setTimeout(() => {
+  document.getElementById('skeletonGrid').style.display = 'none';
+  document.getElementById('blogGrid').style.display = 'grid';
+  renderPosts();
+  renderPopular();
+  renderTags();
+  observeAOS();
+}, 900);
+</script>
+</body>
+</html>
